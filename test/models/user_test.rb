@@ -6,11 +6,11 @@ class UserTest < ActiveSupport::TestCase
   # end
   
   def setup
-    @user = User.new(name:'zhangsan',email:'lisi')
+    @user = User.new(name:'sanzhang',email:'kkc@ak.com', password: "foobar", password_confirmation: "foobar")
   end
   
   test "should be valid" do
-    assert_not @user.valid?
+    assert @user.valid?
   end
   
   test "email should be present" do
@@ -37,4 +37,13 @@ class UserTest < ActiveSupport::TestCase
         assert_not @user.valid?,"#{email.inspect} should be invalid"
     end
   end
+  
+  test "password should have a minimum lenght" do
+    @user.email = "weilu@ba.com"
+    @user.password = @user.password_confirmation = "a"*5
+    assert_not @user.valid?
+    @user.password = @user.password_confirmation = "" 
+    assert_not @user.valid?
+  end
+  
 end
